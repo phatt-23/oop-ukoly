@@ -1,8 +1,13 @@
 # OOP
 
-Implementace banky v C++.
+Implementace banky v C++. 
 
-## 07 Polymorfismus
+## Úkoly
+
+1) 07 Polymorfismus
+2) 08 Abstraktní třída
+
+Každý úkol má vlastní main funkci. Stačí přepnout `#if 0` na `#if 1` u každého mainu.
 
 ``` bash
   # Pro kompilaci a spuštění programu.
