@@ -2,5 +2,5 @@
 
 ``` bash
 # Pro kompilaci a spuštění
-make run
+make
 ```

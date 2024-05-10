@@ -10,6 +10,12 @@ Implementace banky v C++.
 Každý úkol má vlastní main funkci. Stačí přepnout `#if 0` na `#if 1` u každého mainu.
 
 ``` bash
-  # Pro kompilaci a spuštění programu.
+  # Kompilaci programu.
+  make
+
+  # Spuštění programu.
   make run
+
+  # Smazání programu.
+  make clean
 ```

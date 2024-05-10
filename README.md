@@ -1,4 +1,4 @@
-# Úkoly 07, 08 a 09
+# Úkoly 07, 08 a 09 + Projekt 
 
 ## Rozdělení do složek
 
@@ -8,3 +8,4 @@
 
 Úkol 09 je ve složce `navrh-programu-II`.
 
+Projekt je ve složce `projekt`.

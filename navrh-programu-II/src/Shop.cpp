@@ -13,26 +13,25 @@ Shop::~Shop()
 const CompanyUser& Shop::addCustomer(int ID, const std::string& companyName, const std::string& username, const std::string& password, const std::string& contactEmail, const std::string& deliveryAddress)
 {
     customer_list.emplace(ID, std::make_shared<CompanyUser>(companyName, username, password, contactEmail, deliveryAddress));
-    return static_cast<CompanyUser&>(*customer_list.extract(ID).mapped().get());
+    return static_cast<CompanyUser&>(*customer_list.at(ID).get());
 }
 
 const RegisteredUser& Shop::addCustomer(int ID, const std::string& forename, const std::string& surname, const std::string& username, const std::string& password, const std::string& contactEmail, const std::string& deliveryAddress)
 {
     customer_list.emplace(ID, std::make_shared<RegisteredUser>(forename, surname, username, password, contactEmail, deliveryAddress));
-    return static_cast<RegisteredUser&>(*customer_list.extract(ID).mapped().get());
+    return static_cast<RegisteredUser&>(*customer_list.at(ID).get());
 }
 
 const UnregisteredUser& Shop::addCustomer(int ID, const std::string& forename, const std::string& surname, const std::string& contactEmail, const std::string& deliveryAddress)
 {
     customer_list.emplace(ID, std::make_shared<UnregisteredUser>(forename, surname, contactEmail, deliveryAddress));
-    return static_cast<UnregisteredUser&>(*customer_list.extract(ID).mapped().get());
+    return static_cast<const UnregisteredUser&>(*customer_list.at(ID).get());
 }
 
-const AbstractCustomer& Shop::addCustomer(int ID, std::shared_ptr<AbstractStringOutput> customer)
+const AbstractCustomer& Shop::addCustomer(int ID, std::shared_ptr<AbstractCustomer> customer)
 {
-    // customer_list.emplace(ID, std::move(customer));
     customer_list.emplace(ID, customer);
-    return *std::dynamic_pointer_cast<AbstractCustomer>(customer_list.at(ID)).get();
+    return *customer.get();
 }
 
 Order& Shop::addOrder(int ID, AbstractCustomer& customer)
@@ -45,12 +44,6 @@ Order& Shop::addOrder(int ID, int customerID)
 {
     order_list.emplace(ID, std::make_shared<Order>(getCustomer(customerID)));
     return *order_list.at(ID).get();
-}
-
-const OrderItem& Shop::addOrderItemToOrder(Order& order, AbstractStringOutput& product, const int amount)
-{
-    order.addOrderItem(product, amount);
-    return *order.getItemList().back();
 }
 
 const OrderItem& Shop::addOrderItemToOrder(Order& order, AbstractProduct& product, const int amount)
@@ -95,13 +88,13 @@ std::string Shop::toString(int tab_amount) const
     ss << tabs(2) << "Catalog: [" << std::endl;
     size_t i = 0;
     for(const auto& product : catalog->getProductList()) {
-        ss << tabs(3) << "product_" << product.first << " " << std::get<0>(product.second)->toString(4) << ((i++ < catalog->getProductList().size() - 1) ? "," : "") << std::endl;
+        ss << tabs(3) << "product_" << product.first << " " << dynamic_cast<AbstractStringOutput*>(std::get<0>(product.second).get())->toString(4) << ((i++ < catalog->getProductList().size() - 1) ? "," : "") << std::endl;
     }
     ss << tabs(2) << "]," << std::endl;
     ss << tabs(2) << "Customers: [" << std::endl;
     i = 0;
     for(const auto& customer : customer_list) {
-        ss << tabs(3) << "customer_" << customer.first << " " << customer.second->toString(4) << ((i++ < customer_list.size() - 1) ? "," : "") << std::endl;
+        ss << tabs(3) << "customer_" << customer.first << " " << dynamic_cast<AbstractStringOutput*>(customer.second.get())->toString(4) << ((i++ < customer_list.size() - 1) ? "," : "") << std::endl;
     }
     ss << tabs(2) << "]," << std::endl;
     ss << tabs(2) << "Orders: [" << std::endl;
@@ -123,13 +116,13 @@ void Shop::print()
     std::cout << tabs(2) << "Catalog: [" << std::endl;
     size_t i = 0;
     for(const auto& product : catalog->getProductList()) {
-        std::cout << tabs(3) << "product_" << product.first << " " << std::get<0>(product.second)->toString(4) << ((i++ < catalog->getProductList().size() - 1) ? "," : "") << std::endl;
+        std::cout << tabs(3) << "product_" << product.first << " " << dynamic_cast<AbstractStringOutput*>(std::get<0>(product.second).get())->toString(4) << ((i++ < catalog->getProductList().size() - 1) ? "," : "") << std::endl;
     }
     std::cout << tabs(2) << "]," << std::endl;
     std::cout << tabs(2) << "Customers: [" << std::endl;
     i = 0;
     for(const auto& customer : customer_list) {
-        std::cout << tabs(3) << "customer_" << customer.first << " " << customer.second->toString(4) << ((i++ < customer_list.size() - 1) ? "," : "") << std::endl;
+        std::cout << tabs(3) << "customer_" << customer.first << " " << dynamic_cast<AbstractStringOutput*>(customer.second.get())->toString(4) << ((i++ < customer_list.size() - 1) ? "," : "") << std::endl;
     }
     std::cout << tabs(2) << "]," << std::endl;
     std::cout << tabs(2) << "Orders: [" << std::endl;

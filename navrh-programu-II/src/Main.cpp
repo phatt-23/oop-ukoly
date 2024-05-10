@@ -2,7 +2,7 @@
 
 int main() {
     // create the shop
-    std::shared_ptr<Shop> shop = std::make_shared<Shop>("Eshop with Electornic Devices");
+    std::unique_ptr<Shop> shop = std::make_unique<Shop>("Eshop with Electornic Devices");
     
     // add products
     shop->getCatalog().addProduct(1, 100, std::make_shared<MobilePhone>(4, 1, "Huawei P20", (Dim3){8, 12, 3}, (Dim2){1920, 1280}, "Android", 12, 4500, 8, 128));

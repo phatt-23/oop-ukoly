@@ -27,7 +27,7 @@ const Tablet& Catalog::addProduct(int ID, int amount, int selfieCamera_MP, const
     return static_cast<Tablet&>(*get<0>(product_list.at(ID)));
 }
 
-const AbstractProduct& Catalog::addProduct(int ID, int amount, std::shared_ptr<AbstractStringOutput> product) 
+const AbstractProduct& Catalog::addProduct(int ID, int amount, std::shared_ptr<AbstractProduct> product) 
 {
     product_list.emplace(ID, std::make_tuple(std::move(product), amount));
     return *std::dynamic_pointer_cast<AbstractProduct>(product).get();
@@ -38,7 +38,7 @@ const AbstractProduct& Catalog::getProduct(int ID)
     return *std::dynamic_pointer_cast<AbstractProduct>(get<0>(product_list.at(ID))).get();
 }
 
-std::map<int, std::tuple<std::shared_ptr<AbstractStringOutput>, int>>& Catalog::getProductList() 
+std::map<int, std::tuple<std::shared_ptr<AbstractProduct>, int>>& Catalog::getProductList() 
 {
     return product_list;
 }

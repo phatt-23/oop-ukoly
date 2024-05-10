@@ -62,40 +62,64 @@ int Square::get_circum()
 }
 
 
-Rectangle::Rectangle(int t_s0, int t_s1)
+AbstractRectangle::AbstractRectangle(int t_s0, int t_s1)
 : MathObj()
 , m_s0(t_s0), m_s1(t_s1)
 {}
 
+AbstractRectangle::~AbstractRectangle() = default;
+
 Rectangle::~Rectangle()
 {}
 
-int Rectangle::get_area()
+int AbstractRectangle::get_area()
 {
     m_area = m_s0 * m_s1;
     return m_area;
 }
 
-int Rectangle::get_circum()
+int AbstractRectangle::get_circum()
 {
     m_circum = 2*m_s0 + 2*m_s1;
     return m_circum;
 }
 
+void AbstractRectangle::print()
+{
+    std::cout << "AbstractRectangle => " << "a: " << this->m_s0 << ", b: " << this->m_s1 << ", circum: " << get_circum() << std::endl;
+} 
+
+Rectangle::Rectangle(int t_s0, int t_s1)
+    : AbstractRectangle(t_s0, t_s1)
+{}
+
 void Rectangle::print() {
-    std::cout << "area: " << get_area() << ", circum: " << get_circum() << std::endl;
+    std::cout << "Rectangle => " << "a: " << this->m_s0 << ", b: " << this->m_s1 << ", area: " << get_area()<< ", circum: " << get_circum() << std::endl;
+}
+
+int Rectangle::getDiagonalLength() {
+    return sqrt( m_s0*m_s0 + m_s1*m_s1 );
 }
 
 void Circle::print() {
-    std::cout << "area: " << get_area() << ", circum: " << get_circum() << std::endl;
+    std::cout << "Circle => " << "r: " << m_radius << ", area: " << get_area() << ", circum: " << get_circum() << std::endl;
 }
 
 void Square::print() {
-    std::cout << "area: " << get_area() << ", circum: " << get_circum() << std::endl;
+    std::cout << "Square => " << "a: " << m_side << ", area: " << get_area() << ", circum: " << get_circum() << std::endl;
 }
 
 TextureRectangle::TextureRectangle(const std::string& texture_path, int height, int width)
-: Rectangle(height, width), texture_path(texture_path)
+: AbstractRectangle(height, width), texture_path(texture_path)
 {}
 
 TextureRectangle::~TextureRectangle() =  default;
+
+int TextureRectangle::getDiagonalLength() {
+    return sqrt( m_s0*m_s0 + m_s1*m_s1 );
+}
+
+void TextureRectangle::print() {
+    std::cout << "TextureRectangle => " << "a: " << this->m_s0 << ", b: " << this->m_s1 << ", area: " << get_area() << ", circum: " << get_circum() << ", path: " << this->texture_path << std::endl;
+}
+

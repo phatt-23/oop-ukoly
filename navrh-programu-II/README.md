@@ -1,15 +1,12 @@
 # Navrh programu II
 
 ``` bash
-# Rychlá kompilace 
-make -j 10
+  # Kompilaci programu.
+  make
 
-# Normální
-make
+  # Spuštění programu.
+  make run
 
-# Spuštění programu
-make run
-
-# Smazání spustitelného programu a objektových souboru
-make clean
+  # Smazání programu.
+  make clean
 ```

@@ -9,7 +9,7 @@ class Shop : public AbstractStringOutput
     private:
         std::string shopName;
         std::map<int, std::shared_ptr<Order>> order_list;
-        std::map<int, std::shared_ptr<AbstractStringOutput>> customer_list;
+        std::map<int, std::shared_ptr<AbstractCustomer>> customer_list;
         std::unique_ptr<Catalog> catalog;
 
     public:
@@ -23,13 +23,11 @@ class Shop : public AbstractStringOutput
 
         const UnregisteredUser& addCustomer(int ID, const std::string& forename, const std::string& surname, const std::string& contactEmail, const std::string& deliveryAddress); 
 
-        const AbstractCustomer& addCustomer(int ID, std::shared_ptr<AbstractStringOutput> customer);
+        const AbstractCustomer& addCustomer(int ID, std::shared_ptr<AbstractCustomer> customer);
 
         Order& addOrder(int ID, AbstractCustomer& customer);
 
         Order& addOrder(int ID, int customerID);
-
-        const OrderItem& addOrderItemToOrder(Order& order, AbstractStringOutput& product, const int amount);
 
         const OrderItem& addOrderItemToOrder(Order& order, AbstractProduct& product, int amount);
 
